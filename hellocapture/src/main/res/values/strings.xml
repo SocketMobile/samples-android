@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">HelloCapture</string>
+    <string name="set_property_error">Set Property finished with error code %s</string>
+    <string name="set_property_complete">Set Property completed successfully</string>
+    <string name="get_property_error">Get Property finished with error code %s</string>
+    <string name="get_property_complete">Get Property completed successfully</string>
+    <string name="set_property_unable">Unable to set favorite</string>
+    <string name="trigger_socket_cam">Trigger SocketCam</string>
+    <string name="trigger_continuous">Trigger Continuous</string>
+    <string name="set_overlay">Set Overlay</string>
+    <string name="start_socket_cam">Start SocketCam Extension</string>
+    <string name="stop_socket_cam">Stop SocketCam Extension</string>
+    <string name="socket_cam_status_enable">Enable</string>
+    <string name="socket_cam_status_disable">Disable</string>
+    <string name="socket_cam_status_supported">Supported</string>
+    <string name="socket_cam_status_not_supported">Not Supported</string>
+
+    <string name="socket_cam_connected_device">Connected Device:</string>
+    <string name="socket_cam_setting">Settings</string>
+
+    <string name="socket_cam_scan_data">Scan Data : </string>
+
+    <string name="socket_cam_device_not_found">Device not found</string>
+
+    <string name="dialog_error">Error</string>
+    <string name="dialog_error_friendly_name_empty">Input name first.</string>
+
+
+
+    DEVICE_DATA_SOURCE
+
+</resources>

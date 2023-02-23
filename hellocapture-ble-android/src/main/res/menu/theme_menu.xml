@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_theme_default"
+        android:title="Default" />
+
+    <item
+        android:id="@+id/menu_theme_health"
+        android:title="Health" />
+
+    <item
+        android:id="@+id/menu_theme_access"
+        android:title="Access" />
+
+    <item
+        android:id="@+id/menu_theme_value"
+        android:title="Value" />
+
+    <item
+        android:id="@+id/menu_theme_member"
+        android:title="Member" />
+
+</menu>

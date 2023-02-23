@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">HelloCaptureBle</string>
+    <string name="set_property_error">Set Property finished with error code %s</string>
+    <string name="set_property_complete">Set Property completed</string>
+    <string name="set_property_unable">Unable to set favorite</string>
+    <string name="device_manager_error">Device manager is not initialized</string>
+    <string name="location_permission_denied">Location permission denied. Cannot complete request</string>
+    <string name="location_permission_granted">Location permission granted. Make request again</string>
+</resources>

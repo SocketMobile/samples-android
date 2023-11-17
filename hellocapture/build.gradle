@@ -22,7 +22,7 @@ repositories {
 android {
     compileSdkVersion 33
 
-    String vName = '1.6.5'
+    String vName = '1.6.20'
     int vCode = 1060005
 
     defaultConfig {
@@ -53,5 +53,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     testImplementation 'junit:junit:4.13.2'
 
-    implementation 'com.socketmobile:capture-android:1.6.5'
+    implementation 'com.socketmobile:capture-android:1.6.20'
 }

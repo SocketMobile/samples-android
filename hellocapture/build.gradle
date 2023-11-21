@@ -22,12 +22,12 @@ repositories {
 android {
     compileSdkVersion 33
 
-    String vName = '1.6.20'
-    int vCode = 1060005
+    String vName = '1.7.30'
+    int vCode = 1070030
 
     defaultConfig {
         applicationId "com.example.socketmobile.android.hellocapture"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 33
         versionCode vCode
         versionName vName
@@ -53,5 +53,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     testImplementation 'junit:junit:4.13.2'
 
-    implementation 'com.socketmobile:capture-android:1.6.20'
+    implementation 'com.socketmobile:capture-android:1.7.30'
 }

@@ -20,3 +20,7 @@ Support S370
 HelloCapture 1.6.20
 Release date : Nov 2023
 Patch fix to start Companion Service after Companion is upgraded to Android 12+
+
+HelloCapture 1.7.30
+Release date : Nov 2023
+Upgrade to C860

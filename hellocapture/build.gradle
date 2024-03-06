@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
@@ -20,15 +20,15 @@ repositories {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
-    String vName = '1.7.30'
-    int vCode = 1070030
+    String vName = '1.8.2'
+    int vCode = 1080002
 
     defaultConfig {
         applicationId "com.example.socketmobile.android.hellocapture"
         minSdkVersion 22
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode vCode
         versionName vName
     }
@@ -53,5 +53,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     testImplementation 'junit:junit:4.13.2'
 
-    implementation 'com.socketmobile:capture-android:1.7.39'
+    implementation 'com.socketmobile:capture-android:1.8.2'
 }

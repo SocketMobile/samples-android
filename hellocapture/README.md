@@ -43,3 +43,12 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 * Release date : Mar 2024
 * Support S320
 * Update Broadcast Receiver flags
+
+## HelloCapture 1.8.4/1.8.5
+* Release date : Mar 2024
+* Minor UI updates
+
+## HelloCapture 1.8.9
+* Release date : Jun 2024
+* Support custom view for Socketcam
+* Support front camera for Socketcam

@@ -16,15 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/txt_socketcam_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="SocketCam Extension"
+            android:layout_marginTop="10dp"
+            android:text="Start Camera Scanning"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
             app:fontFamily="sans-serif"
@@ -48,7 +48,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:fontFamily="sans-serif"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_socketcam_title" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_socketcam_title"
+            android:visibility="gone"/>
 
         <Spinner
             android:id="@+id/spinner_scope"
@@ -57,7 +58,8 @@
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_socketcam_scope"
             app:layout_constraintStart_toEndOf="@+id/txt_socketcam_scope"
-            app:layout_constraintTop_toTopOf="@+id/txt_socketcam_scope" />
+            app:layout_constraintTop_toTopOf="@+id/txt_socketcam_scope"
+            android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier_start"
@@ -79,7 +81,8 @@
 
             android:text="Status : "
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:fontFamily="sans-serif" />
+            app:fontFamily="sans-serif"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/socketcam_current_status_text"
@@ -93,19 +96,21 @@
 
             android:text="Unkown"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:fontFamily="sans-serif" />
+            app:fontFamily="sans-serif"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btn_socketcam_status_read"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:text="Get SocketCam Status"
+            android:text="Get"
 
             android:layout_marginStart="12dp"
 
             app:layout_constraintTop_toBottomOf="@+id/barrier_start"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             />
 
         <androidx.constraintlayout.widget.Barrier
@@ -117,53 +122,57 @@
 
 
         <Button
-            android:id="@+id/btn_socketcam_status_enable"
-            style="@style/btn_socketcam_statue"
-            android:text="@string/socket_cam_status_enable"
-
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_disable"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_not_supported"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_not_supported"
-            android:onClick="updateSocketCamStatus"/>
-
-        <Button
-            android:id="@+id/btn_socketcam_status_disable"
-            style="@style/btn_socketcam_statue"
-            android:text="@string/socket_cam_status_disable"
-
-            app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_not_supported"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_not_supported"
-            app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_enable"
-            app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_supported"
-
-            android:onClick="updateSocketCamStatus"/>
-
-        <Button
             android:id="@+id/btn_socketcam_status_supported"
             style="@style/btn_socketcam_statue"
             android:text="@string/socket_cam_status_supported"
 
-            app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_not_supported"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_not_supported"
-            app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_disable"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_not_supported"
-
-            android:onClick="updateSocketCamStatus"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_disable"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_disable"
+            android:onClick="updateSocketCamStatus"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btn_socketcam_status_not_supported"
             style="@style/btn_socketcam_statue"
-            android:layout_height="wrap_content"
             android:text="@string/socket_cam_status_not_supported"
 
-            app:layout_constraintTop_toBottomOf="@+id/barrier_socketcam_status"
+            app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_disable"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_disable"
             app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_supported"
+            app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_enable"
+
+            android:onClick="updateSocketCamStatus"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_socketcam_status_enable"
+            style="@style/btn_socketcam_statue"
+            android:text="@string/socket_cam_status_enable"
+
+            app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_disable"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_disable"
+            app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_not_supported"
+            app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_disable"
+
+            android:onClick="updateSocketCamStatus"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_socketcam_status_disable"
+            style="@style/btn_socketcam_statue"
+            android:layout_height="wrap_content"
+            android:text="@string/socket_cam_status_disable"
+
+            app:layout_constraintTop_toBottomOf="@+id/barrier_socketcam_status"
+            app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_enable"
 
             app:layout_constraintEnd_toEndOf="parent"
 
-            android:onClick="updateSocketCamStatus"/>
+            android:onClick="updateSocketCamStatus"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -171,7 +180,8 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/socketcam_container">
+        android:layout_below="@+id/socketcam_container"
+        android:layout_marginTop="8dp">
 
         <TextView
             android:id="@+id/main_label_service_status"
@@ -204,26 +214,41 @@
             app:layout_constraintTop_toBottomOf="@+id/main_label_service_status" />
 
         <TextView
-            android:id="@+id/main_label_devices"
+            android:id="@+id/main_label_device_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Devices:"
+            android:layout_marginTop="8dp"
+            android:text="Device:"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:fontFamily="sans-serif"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider_service_status"
-            android:layout_marginTop="8dp"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/main_device_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:fontFamily="sans-serif-condensed"
+            app:layout_constraintBaseline_toBaselineOf="@+id/main_label_device_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Connecting"
+            tools:textColor="#FF7400" />
+
+        <View
+            android:id="@+id/divider_device_status"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_label_device_status" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/connected_device_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_label_devices"
-            android:layout_marginTop="4dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/divider_device_status"/>
 
         <TextView
             android:id="@+id/scan_counter"
@@ -233,17 +258,6 @@
             android:text="0/0"
             app:layout_constraintBaseline_toBaselineOf="@+id/btn_clear_data"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/hello_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:text="@string/socket_cam_scan_data"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:fontFamily="sans-serif"
-            app:layout_constraintBaseline_toBaselineOf="@+id/btn_clear_data"
-            app:layout_constraintStart_toEndOf="@+id/scan_counter" />
 
         <Button
             android:id="@+id/btn_clear_data"
@@ -255,6 +269,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/connected_device_list" />
 
+        <ScrollView
+            android:id="@+id/data_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintTop_toBottomOf="@id/btn_clear_data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" >
+            <TextView
+                android:id="@+id/hello_scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/socket_cam_scan_data"
+                app:layout_constraintTop_toBottomOf="@+id/btn_clear_data" />
+        </ScrollView>
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="nextActivity"
+            android:text="Next"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

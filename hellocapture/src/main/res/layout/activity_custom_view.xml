@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".CustomViewActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/socketcam_custom_view"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:id="@+id/device_status_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/socketcam_custom_view_device"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        tools:ignore="HardcodedText"
+        android:layout_below="@id/title"/>
+
+    <TextView
+        android:id="@+id/device_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="@string/socketcam_custom_view_connecting"
+        tools:ignore="HardcodedText"
+        android:layout_below="@id/title"
+        android:textColor="#FF7400"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/device_status_label"/>
+
+    <Button
+        android:id="@+id/trigger_button"
+        style="@style/btn_trigger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/trigger_socktcam"
+        android:layout_below="@id/device_status_label"/>
+
+    <TextView
+        android:id="@+id/decoded_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold"
+        android:layout_below="@id/trigger_button"/>
+
+    <FrameLayout
+        android:id="@+id/socketcam_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -25,8 +25,11 @@
     <string name="dialog_error">Error</string>
     <string name="dialog_error_friendly_name_empty">Input name first.</string>
 
-
-
-    DEVICE_DATA_SOURCE
+    <string name="socketcam_with_default_view_finder">Socketcam with default View Finder</string>
+    <string name="socketcam_with_custom_view_finder">Socketcam with Custom View Finder</string>
+    <string name="socketcam_custom_view">SocketCam Custom View</string>
+    <string name="trigger_socktcam">Trigger Socktcam</string>
+    <string name="socketcam_custom_view_device">Device : </string>
+    <string name="socketcam_custom_view_connecting">Connecting</string>
 
 </resources>

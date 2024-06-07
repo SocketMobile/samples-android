@@ -1,9 +1,15 @@
 package com.example.socketmobile.android.hellocapture;
 
-import android.bluetooth.BluetoothAdapter;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.icu.util.Calendar;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,8 +18,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +47,9 @@ import com.socketmobile.capture.types.DecodedData;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +57,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = MainActivity.class.getName();
-
     private static final String APP_CENTER_UUID = "f31d5d6d-957d-4598-ad0b-b9d79a15378a";
 
     private static final int COLOR_ERROR = Color.parseColor("#C72C30");
@@ -53,44 +65,40 @@ public class MainActivity extends AppCompatActivity{
     private static final int COLOR_IDLE = Color.parseColor("#CCCCCC");
 
     private Snackbar socketSnack;
-
+    private Snackbar btPermissionSnack;
     private CaptureClient mCaptureClient;
-
     private CaptureExtension mCaptureExtension;
 
-    // Map : DeviceGUID -> Device
-    public static Map<String, DeviceClient> mDeviceMap = new HashMap<>();
+    private long startTime = 0;
+    private long endTime = 0;
 
-    // Map : DeviceGUID -> DeviceState
+    // Map : DeviceName -> Device
+    public Map<String, DeviceClient> mDeviceMap = new HashMap<>();
+
+    // Map : DeviceName -> DeviceState
     private Map<String, DeviceState> mDeviceStates = new HashMap<>();
 
     private ArrayList<DeviceClient> deviceList = new ArrayList<>();
-
     private DeviceListAdapter deviceListAdapter;
-
     private SwitchCompat switchSocketCam;
 
+    private static final String EXPORT_FILE_NAME = "HelloCaptureData.csv";
     private int mTriggerCount;
-
     private int mDecodedDataCount;
+    private int mDataCount = 0;
 
-    private View btnSocketCamStatusArray[];
+    private TextView mScanDataView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Start Capture
-        Capture.builder(getApplicationContext())
-                .enableLogging(BuildConfig.DEBUG)
-                .build();
-
         setTitle(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
 
         mTriggerCount = 0;
         mDecodedDataCount = 0;
-        TextView tv = (TextView) findViewById(R.id.scan_counter);
+        TextView tv = findViewById(R.id.scan_counter);
         tv.setText(String.format("%d / %d", mDecodedDataCount, mTriggerCount));
 
 
@@ -98,11 +106,10 @@ public class MainActivity extends AppCompatActivity{
         switchSocketCam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                if (isChecked)
                     startSocketCamExtension();
-                } else {
+                else
                     stopSocketCamExtension();
-                }
             }
         });
 
@@ -110,7 +117,7 @@ public class MainActivity extends AppCompatActivity{
         scopeList.add(ExtensionScope.LOCAL);
         scopeList.add(ExtensionScope.GLOBAL);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_scope);
+        Spinner spinner = findViewById(R.id.spinner_scope);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, scopeList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -122,35 +129,11 @@ public class MainActivity extends AppCompatActivity{
         // Connected device list
         RecyclerView recyclerView = findViewById(R.id.connected_device_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
         deviceListAdapter = new DeviceListAdapter(deviceList, mDeviceStates, deviceItemEventListener);
         recyclerView.setAdapter(deviceListAdapter);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart() called with: " + "");
+        mScanDataView = findViewById(R.id.hello_scan);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause() called with: " + "");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume() called with: " + "");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called with: " + "");
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -158,7 +141,6 @@ public class MainActivity extends AppCompatActivity{
             mCaptureExtension.stop();
     }
 
-    // Enable SocketCam Status
     public void updateSocketCamStatus(View view) {
         if(mCaptureClient == null || mCaptureExtension == null) {
             Toast.makeText(getApplicationContext(), "SocketCam client is not initialized", Toast.LENGTH_SHORT).show();
@@ -183,14 +165,24 @@ public class MainActivity extends AppCompatActivity{
         mCaptureClient.setSocketCamStatus(status, mSetPropertyCallback);
     }
 
-    public void startSocketCamExtension() {
+    private void startSocketCamExtension() {
         if(mCaptureClient != null) {
+            mCaptureClient.getCaptureVersion(new PropertyCallback() {
+                @Override
+                public void onComplete(CaptureError captureError, Property property) {
+                    if(property != null) {
+                        Log.d(TAG, "SocketCam: Companion Service version : " + property.version);
+                    } else {
+                        Log.d(TAG, "SocketCam: Companion Service version error : " + captureError.getCode());
+                    }
+                }
+            });
+
             Log.d(TAG, "SocketCam: start extension");
 
             Spinner spinner = (Spinner) findViewById(R.id.spinner_scope);
             ExtensionScope scope = (ExtensionScope)spinner.getSelectedItem();
 
-            // Start Capture Extension
             mCaptureExtension = new CaptureExtension.Builder()
                     .setContext(this)
                     .setClientHandle(mCaptureClient.getHandle())
@@ -198,28 +190,29 @@ public class MainActivity extends AppCompatActivity{
                     .setListener(mListener)
                     .build();
             mCaptureExtension.start();
-
             updateSocketCamStatusButton(true);
         } else {
-            Toast.makeText(getApplicationContext(), "Capture client is not initialized", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Cannot start extension. Capture client is not initialized");
+            switchSocketCam.setChecked(false);
         }
     }
 
-    public void stopSocketCamExtension() {
+    private void stopSocketCamExtension() {
         if(mCaptureExtension != null) {
             mCaptureExtension.stop();
             updateSocketCamStatusButton(false);
         } else {
-            Toast.makeText(getApplicationContext(), "Capture extension is not initialized", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "Cannot stop extension. Capture extension is not initialized");
         }
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onScan(DataEvent event) {
         Log.d(TAG, "onScan : event = [" + event + "]");
         DecodedData data = event.getData();
         if (data.result == DecodedData.RESULT_SUCCESS) {
-            incrementScanCount(event.getData().getString());
+            print(event.getData().getString(), event.getDevice().getDeviceName());
         } else {
             Log.d(TAG, "Scan Cancelled");
         }
@@ -236,10 +229,13 @@ public class MainActivity extends AppCompatActivity{
 
         ConnectionState state = event.getState();
         mCaptureClient = event.getClient();
+
         if (state.hasError()) {
             setText(tv, COLOR_ERROR, "Error");
 
             CaptureError error = state.getError();
+            Log.d(TAG, "onCaptureServiceConnectionStateChange error : " + error.getCode());
+
             if (error.getCode() == CaptureError.COMPANION_NOT_INSTALLED) {
                 // Prompt to install
                 socketSnack = Snackbar.make(findViewById(R.id.main_content),
@@ -249,6 +245,19 @@ public class MainActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View v) {
                         // Install
+                        Capture.installCompanion(v.getContext());
+                        socketSnack.dismiss();
+                    }
+                });
+                socketSnack.show();
+            }else if (error.getCode() == CaptureError.COMPANION_NOT_UPGRADED){
+                setText(tv, COLOR_ERROR, "Disconnected");
+                socketSnack = Snackbar.make(findViewById(R.id.main_content),
+                        "Socket Mobile Companion must be upgraded to use your scanner",
+                        Snackbar.LENGTH_INDEFINITE);
+                socketSnack.setAction("Install", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         Capture.installCompanion(v.getContext());
                         socketSnack.dismiss();
                     }
@@ -270,16 +279,26 @@ public class MainActivity extends AppCompatActivity{
                 }
             } else if (error.getCode() == CaptureError.BLUETOOTH_NOT_ENABLED) {
                 socketSnack = Snackbar.make(findViewById(R.id.main_content),
-                        "Bluetooth must be enabled to use your scanner",
+                        "Please ensure Companion has Bluetooth permission and Bluetooth Radio is on.",
                         Snackbar.LENGTH_INDEFINITE);
-                socketSnack.setAction("Enable", new View.OnClickListener() {
+                socketSnack.setAction("Dismiss", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Enable Bluetooth - requires BLUETOOTH permission
-                        startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
+                        socketSnack.dismiss();
                     }
                 });
                 socketSnack.show();
+            } else if(error.getCode() == CaptureError.ESKT_BLUETOOTHPERMISSIONMISSING) {
+                btPermissionSnack = Snackbar.make(findViewById(R.id.main_content),
+                        "Companion does not have bluetooth permission",
+                        Snackbar.LENGTH_INDEFINITE);
+                btPermissionSnack.setAction("Dismiss", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btPermissionSnack.dismiss(); // TODO : add code to call companion permission activity
+                    }
+                });
+                btPermissionSnack.show();
             } else {
                 socketSnack = Snackbar.make(findViewById(R.id.main_content), error.getMessage(),
                         Snackbar.LENGTH_INDEFINITE);
@@ -288,6 +307,7 @@ public class MainActivity extends AppCompatActivity{
         } else {
             // Connection has been established. You will be notified when a device is connected and ready.
             // do something or do nothing
+            Log.d(TAG, "onCaptureServiceConnectionStateChange setting state " +  state.intValue());
             switch (state.intValue()) {
                 case ConnectionState.CONNECTING:
                     setText(tv, COLOR_PENDING, "Connecting");
@@ -296,6 +316,9 @@ public class MainActivity extends AppCompatActivity{
                     setText(tv, COLOR_PENDING, "Connected");
                     break;
                 case ConnectionState.READY:
+                    if(btPermissionSnack != null) {
+                        btPermissionSnack.dismiss();
+                    }
                     setText(tv, COLOR_READY, "Ready");
                     break;
                 case ConnectionState.DISCONNECTING:
@@ -312,28 +335,32 @@ public class MainActivity extends AppCompatActivity{
         DeviceClient device = event.getDevice();
         DeviceState state = event.getState();
 
-        Log.d(TAG, "Device : type : " + device.getDeviceType() + " guid : " + device.getDeviceGuid());
-        Log.d(TAG, "Device : name : " + device.getDeviceName() + " state: " + state.intValue());
-        String deviceGUID = device.getDeviceGuid();
-        if (!mDeviceMap.containsKey(deviceGUID)) {
+        Log.d(TAG, "type : " + device.getDeviceType() + " guid : " + device.getDeviceGuid());
+        Log.d(TAG, "name : " + device.getDeviceName() + " state : " + state.toString());
+
+        String deviceName = device.getDeviceName();
+
+        if (!mDeviceMap.containsKey(deviceName)) {
             deviceList.add(device);
         }
 
-        if (state.intValue() == DeviceState.GONE) {
-            mDeviceMap.remove(deviceGUID);
-            mDeviceStates.remove(deviceGUID);
-            deviceList.remove(device);
-        }
-
-        mDeviceMap.put(deviceGUID, device);
-        mDeviceStates.put(deviceGUID, state);
+        mDeviceMap.put(deviceName, device);
+        mDeviceStates.put(deviceName, state);
         deviceListAdapter.notifyDataSetChanged();
+
     }
 
-    private void incrementScanCount(String message) {
-        ((TextView) findViewById(R.id.hello_scan)).append("\n" + message);
+    private void print(String message, String deviceName) {
+        mScanDataView.append("\n" + ++mDataCount + ". " + message);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            endTime = Calendar.getInstance().getTimeInMillis();
+        }
+        long timeTaken = endTime - startTime;
+        mScanDataView.append("\n" + "  Time to scan : " + timeTaken + " ms");
+
         mDecodedDataCount++;
-        TextView tv = (TextView) findViewById(R.id.scan_counter);
+        TextView tv = findViewById(R.id.scan_counter);
         tv.setText(String.format("%d / %d", mDecodedDataCount, mTriggerCount));
         Log.d(TAG, String.format("Decoded Data => Decoded Data Count / Trigger Count: %d / %d", mDecodedDataCount,mTriggerCount));
     }
@@ -343,7 +370,6 @@ public class MainActivity extends AppCompatActivity{
         textView.setTextColor(color);
     }
 
-    // Response for get Property calls are received here
     PropertyCallback mSetPropertyCallback = new PropertyCallback() {
 
         @Override
@@ -355,7 +381,6 @@ public class MainActivity extends AppCompatActivity{
                         String err = String.format(getResources().getString(R.string.set_property_error), "" + error.getCode());
                         Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), R.string.set_property_complete, Toast.LENGTH_SHORT).show();
                         switch (property.id) {
                             case Property.SOCKETCAM_STATUS:
                                 mCaptureClient.getSocketCamStatus(mGetPropertyCallback);
@@ -370,7 +395,6 @@ public class MainActivity extends AppCompatActivity{
         }
     };
 
-    // Response for set Property calls are received here
     PropertyCallback mGetPropertyCallback = new PropertyCallback() {
 
         @Override
@@ -382,7 +406,6 @@ public class MainActivity extends AppCompatActivity{
                         String err = String.format(getResources().getString(R.string.get_property_error), "" + error.getCode());
                         Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), R.string.get_property_complete, Toast.LENGTH_SHORT).show();
                         switch (property.id) {
                             case Property.SOCKETCAM_STATUS:
                                 TextView currentSocketCamStatus = (TextView) findViewById(R.id.socketcam_current_status_text);
@@ -402,20 +425,34 @@ public class MainActivity extends AppCompatActivity{
         }
     };
 
-    // Events related to capture extension for using SocketCam will be sent here
+    // Events related to capture extension for using socketcam will be sent here
     CaptureExtension.Listener mListener = new CaptureExtension.Listener() {
         @Override
         public void onExtensionStateChanged(ConnectionState connectionState) {
             Log.d(TAG, "onExtensionStarted");
             switch (connectionState.intValue()) {
                 case ConnectionState.READY:
-                    // Capture Extension has started successfully
-                    // Enable SocketCam Status, if it has not been Enabled already
-                    // Do your UI update here
+                    Log.d(TAG, "Extension Started");
+                    if(mCaptureClient != null ) {
+                        mCaptureClient.setSocketCamStatus(SocketCamStatus.ENABLE, new PropertyCallback() {
+                            @Override
+                            public void onComplete(CaptureError captureError, Property property) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (captureError != null) {
+                                            Toast.makeText(getApplicationContext(), "Erro starting camera scanning : " + captureError.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Error: Client is closed", Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case ConnectionState.DISCONNECTED:
-                    // Capture Extension has been stopped
-                    // Do your UI update here
+                    Log.d(TAG, "Extension Stopped");
                     break;
                 default:
                     break;
@@ -425,10 +462,13 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onError(CaptureError error) {
             Log.e(TAG, "SocketCam: onError " + error);
+            Toast.makeText(getApplicationContext(), "Error starting extension : " + error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
 
     //region SocketCam Status buttons
+    private View btnSocketCamStatusArray[];
+
     private void findSocketCamStatusButtons() {
         int viewIds[] = {R.id.btn_socketcam_status_enable, R.id.btn_socketcam_status_disable,
                 R.id.btn_socketcam_status_not_supported, R.id.btn_socketcam_status_supported,
@@ -461,9 +501,11 @@ public class MainActivity extends AppCompatActivity{
 
     //region clear data
     public void clearScanData(View view) {
+        mDataCount = 0;
         mDecodedDataCount = 0;
         mTriggerCount = 0;
-        ((TextView) findViewById(R.id.hello_scan)).setText(R.string.socket_cam_scan_data);
+
+        mScanDataView.setText(R.string.socket_cam_scan_data);
         TextView tv = (TextView) findViewById(R.id.scan_counter);
         tv.setText(String.format("%d / %d", mDecodedDataCount, mTriggerCount));
     }
@@ -471,12 +513,22 @@ public class MainActivity extends AppCompatActivity{
 
     //region DeviceListItem event
     DeviceListAdapter.DeviceItemEventListener deviceItemEventListener = new DeviceListAdapter.DeviceItemEventListener() {
-        @Override
-        public void onTriggerClicked(String deviceGUID, boolean isContinuousMode) {
-            DeviceClient currentDevice = mDeviceMap.get(deviceGUID);
 
+        @Override
+        public void onSettingClicked(String deviceGUID) {
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void onTriggerClicked(String deviceName, boolean isContinuousMode) {
+            DeviceClient currentDevice = mDeviceMap.get(deviceName);
+
+            startTime = Calendar.getInstance().getTimeInMillis();
+
+            Log.d(TAG, "SocketCam: setScanTrigger");
             if(currentDevice == null) {
-                Toast.makeText(getApplicationContext(), "SocketCam not found. Did you enable SocketCam?", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "SocketCam device not found", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -494,4 +546,3 @@ public class MainActivity extends AppCompatActivity{
     };
     //endregion
 }
-

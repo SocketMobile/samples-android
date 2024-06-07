@@ -19,6 +19,13 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="btn_trigger">
+        <item name="textAllCaps">false</item>
+        <item name="backgroundTint">#C5D4EB</item>
+        <item name="android:background">@drawable/btn_round_corner</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
     <style name="property_text_base">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
         <item name="fontFamily">sans-serif</item>

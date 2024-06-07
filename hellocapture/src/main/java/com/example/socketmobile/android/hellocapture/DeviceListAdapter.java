@@ -19,6 +19,7 @@ import java.util.Map;
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder>{
 
     ArrayList<DeviceClient> deviceList;
+
     Map<String, DeviceState> deviceStates;
     DeviceItemEventListener eventListener;
 
@@ -40,16 +41,19 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DeviceClient device = deviceList.get(position);
-        String deviceGUID = device.getDeviceGuid();
-        DeviceState state = deviceStates.get(deviceGUID);
+
+        String deviceName = device.getDeviceName();
+        DeviceState state = deviceStates.get(deviceName);
 
         holder.setDeviceInfo(device, state);
     }
 
     @Override
     public int getItemCount() {
+
         if (deviceList == null)
             return 0;
+
         return deviceList.size();
     }
 
@@ -58,9 +62,11 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         private DeviceState state;
 
         private TextView txtDeviceName;
+
         private TextView txtDeviceStatus;
 
-        private static int[] btn_id_list = {R.id.btn_trigger_socket_cam, R.id.btn_trigger_continuous};
+
+        private static int[] btn_id_list = {R.id.btn_property, R.id.btn_trigger_socket_cam, R.id.btn_trigger_continuous};
         private Button[] btnList = new Button[btn_id_list.length];
 
         private DeviceItemEventListener eventListener;
@@ -70,8 +76,10 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
 
             this.eventListener = eventListener;
 
+
             txtDeviceName = itemView.findViewById(R.id.txt_device_name);
             txtDeviceStatus = itemView.findViewById(R.id.txt_device_status);
+
 
             for (int i = 0; i < btn_id_list.length; i++) {
                 btnList[i] = itemView.findViewById(btn_id_list[i]);
@@ -126,23 +134,33 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
             }
             tv.setTextColor(tv.getContext().getResources().getColor(color));
             tv.setText(message);
+
+            for (Button btn : btnList) {
+                btn.setEnabled(state.intValue() == DeviceState.READY);
+            }
+
         }
 
         @Override
         public void onClick(View v) {
-            String deviceGUID = device.getDeviceGuid();
+            String deviceName = device.getDeviceName();
             switch (v.getId()) {
+                case R.id.btn_property:
+                    eventListener.onSettingClicked(deviceName);
+                    break;
                 case R.id.btn_trigger_socket_cam:
-                    eventListener.onTriggerClicked(deviceGUID, false);
+                    eventListener.onTriggerClicked(deviceName, false);
                     break;
                 case R.id.btn_trigger_continuous:
-                    eventListener.onTriggerClicked(deviceGUID, true);
+                    eventListener.onTriggerClicked(deviceName, true);
                     break;
             }
         }
     }
 
     public interface DeviceItemEventListener {
-        void onTriggerClicked(String deviceGUID, boolean isContinuousMode);
+
+        void onSettingClicked(String deviceName);
+        void onTriggerClicked(String deviceName, boolean isContinuousMode);
     }
 }

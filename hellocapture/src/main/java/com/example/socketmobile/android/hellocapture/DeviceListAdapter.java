@@ -144,17 +144,15 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         @Override
         public void onClick(View v) {
             String deviceName = device.getDeviceName();
-            switch (v.getId()) {
-                case R.id.btn_property:
-                    eventListener.onSettingClicked(deviceName);
-                    break;
-                case R.id.btn_trigger_socket_cam:
-                    eventListener.onTriggerClicked(deviceName, false);
-                    break;
-                case R.id.btn_trigger_continuous:
-                    eventListener.onTriggerClicked(deviceName, true);
-                    break;
+            int id_ = v.getId();
+            if(id_ == R.id.btn_property) {
+                eventListener.onSettingClicked(deviceName);
+            } else if (id_ == R.id.btn_trigger_socket_cam){
+                eventListener.onTriggerClicked(deviceName, false);
+            } else if (id_ == R.id.btn_trigger_continuous){
+                eventListener.onTriggerClicked(deviceName, true);
             }
+
         }
     }
 

@@ -148,20 +148,17 @@ public class MainActivity extends AppCompatActivity{
         }
 
         byte status = SocketCamStatus.ENABLE;
-        switch(view.getId()){
-            case R.id.btn_socketcam_status_enable:
-                status = SocketCamStatus.ENABLE;
-                break;
-            case R.id.btn_socketcam_status_disable:
-                status = SocketCamStatus.DISABLE;
-                break;
-            case R.id.btn_socketcam_status_supported:
-                status = SocketCamStatus.SUPPORTED;
-                break;
-            case R.id.btn_socketcam_status_not_supported:
-                status = SocketCamStatus.NOT_SUPPORTED;
-                break;
+        int id_ = view.getId();
+        if (id_ == R.id.btn_socketcam_status_enable) {
+            status = SocketCamStatus.ENABLE;
+        } else if(id_ == R.id.btn_socketcam_status_disable) {
+            status = SocketCamStatus.DISABLE;
+        } else if(id_ == R.id.btn_socketcam_status_supported) {
+            status = SocketCamStatus.SUPPORTED;
+        }else if(id_ == R.id.btn_socketcam_status_not_supported) {
+            status = SocketCamStatus.NOT_SUPPORTED;
         }
+
         mCaptureClient.setSocketCamStatus(status, mSetPropertyCallback);
     }
 

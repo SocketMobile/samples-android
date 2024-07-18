@@ -52,3 +52,7 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 * Release date : Jun 2024
 * Support custom view for Socketcam
 * Support front camera for Socketcam
+* 
+## HelloCapture 1.8.13
+* Release date : Jul 2024
+* Update sdk which targets api level 34

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-def sdkVersion = '1.8.9'
+def sdkVersion = '1.8.13'
 
 buildscript {
     repositories {
@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.5.0'
     }
 }
 
@@ -22,7 +22,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 34
+    namespace "com.example.socketmobile.android.hellocapture"
+    compileSdk 34
 
     String vName = sdkVersion
     int vCode = getVersionCode(vName)
@@ -47,6 +48,10 @@ android {
 
     configurations {
         all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 

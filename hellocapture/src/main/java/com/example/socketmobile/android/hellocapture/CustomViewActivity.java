@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -86,8 +87,6 @@ public class CustomViewActivity extends AppCompatActivity {
             mCaptureClient.setSocketCamStatus(SocketCamStatus.ENABLE, new PropertyCallback() {
                 @Override
                 public void onComplete(CaptureError captureError, Property property) {
-
-
                     if(mCaptureClient != null) {
                         mCaptureClient.setSocketCamStatus(SocketCamStatus.ENABLE, new PropertyCallback() {
                             @Override
@@ -123,6 +122,9 @@ public class CustomViewActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onCaptureDeviceStateChange(DeviceStateEvent event) {
+
+        Log.d("CustomViewActivity", "CustomViewActivity : onService() called with: event = [" + event.getState().intValue() + "]");
+        Log.d("CustomViewActivity", "CustomViewActivity : onService() called with: trype = [" +event.getDevice().getDeviceType() + "]");
         //if(event.getDevice().getDeviceType() == kModelSocketCamC820) {
         if (DeviceType.isCameraScanner(event.getDevice().getDeviceType())) {
             mTriggerButton.setEnabled(true);

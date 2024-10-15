@@ -285,16 +285,6 @@
                 android:text="@string/socket_cam_scan_data"
                 app:layout_constraintTop_toBottomOf="@+id/btn_clear_data" />
         </ScrollView>
-
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="nextActivity"
-            android:text="Next"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

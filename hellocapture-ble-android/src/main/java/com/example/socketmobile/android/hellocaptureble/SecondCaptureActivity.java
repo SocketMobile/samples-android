@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.socketmobile.android.hellocapture.R;
 import com.socketmobile.capture.CaptureError;
 import com.socketmobile.capture.Property;
 import com.socketmobile.capture.android.events.ConnectionStateEvent;

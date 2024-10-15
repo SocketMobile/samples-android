@@ -1,11 +1,13 @@
 package com.example.socketmobile.android.hellocaptureble;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -19,9 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.example.socketmobile.android.hellocapture.BuildConfig;
-import com.example.socketmobile.android.hellocapture.BuildConfig;
-import com.example.socketmobile.android.hellocapture.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
@@ -68,6 +67,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -219,6 +219,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 socketSnack.setAction("Enable", new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         // Enable Bluetooth - requires BLUETOOTH permission
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 0x10);
+                            }
+                            return;
+                        }
                         startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
                     }
                 });
@@ -386,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         if(mDeviceManager == null) {
-            Toast.makeText(getApplicationContext(), R.string.device_manager_error, Toast.LENGTH_SHORT).show();
+            Log.e(TAG, String.valueOf(R.string.device_manager_error));
             return;
         }
         String selected = favorites.get(position);
@@ -613,25 +619,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Property property = null;
-                switch (menuItem.getItemId()) {
-                    case R.id.menu_trigger_start:
-                        deviceClient.trigger(triggerPropertyCallback);
-                        break;
-                    case R.id.menu_trigger_stop:
-                        deviceClient.triggerStop(triggerPropertyCallback);
-                        break;
-                    case R.id.menu_trigger_enable:
-                        deviceClient.triggerEnable(triggerPropertyCallback);
-                        break;
-                    case R.id.menu_trigger_disable:
-                        deviceClient.triggerDisable(triggerPropertyCallback);
-                        break;
-                    case R.id.menu_trigger_continuous:
-                        deviceClient.triggerContinuous(triggerPropertyCallback);
-                        break;
-                    default:
-                        return true;
+                int menuId = menuItem.getItemId();
+                if(menuId == R.id.menu_trigger_start) {
+                    deviceClient.trigger(triggerPropertyCallback);
+                } else if(menuId == R.id.menu_trigger_stop) {
+                    deviceClient.triggerStop(triggerPropertyCallback);
+                } else if(menuId == R.id.menu_trigger_enable) {
+                    deviceClient.triggerEnable(triggerPropertyCallback);
+                } else if(menuId == R.id.menu_trigger_disable) {
+                    deviceClient.triggerDisable(triggerPropertyCallback);
+                } else if(menuId == R.id.menu_trigger_continuous) {
+                    deviceClient.triggerContinuous(triggerPropertyCallback);
                 }
                 return true;
             }
@@ -655,24 +653,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 byte theme = 0;
-                switch (item.getItemId()) {
-                    case R.id.menu_theme_default:
-                        theme = THEME_DEFAULT;
-                        break;
-                    case R.id.menu_theme_health:
-                        theme = THEME_HEALTH;
-                        break;
-                    case R.id.menu_theme_access:
-                        theme = THEME_ACCESS;
-                        break;
-                    case R.id.menu_theme_value:
-                        theme = THEME_VALUE;
-                        break;
-                    case R.id.menu_theme_member:
-                        theme = THEME_MEMBER;
-                        break;
-                    default:
-                        return true;
+                int menuId = item.getItemId();
+                if(menuId ==  R.id.menu_theme_default) {
+                    theme = THEME_DEFAULT;
+                } else if(menuId ==  R.id.menu_theme_health) {
+                    theme = THEME_HEALTH;
+                } else if(menuId ==  R.id.menu_theme_access) {
+                    theme = THEME_ACCESS;
+                } else if(menuId ==  R.id.menu_theme_value) {
+                    theme = THEME_VALUE;
+                } else if(menuId ==  R.id.menu_theme_member) {
+                    theme = THEME_MEMBER;
                 }
                 deviceClient.setThemeSelection(theme, themePropertyCallback);
                 return true;

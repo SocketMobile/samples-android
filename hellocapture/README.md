@@ -19,6 +19,10 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 1.8.26
+* Release date : Oct 2024
+* Add sdk version when opening a client
+
 ## HelloCapture 1.8.21
 * Release date : Oct 2024
 * New factory method for creating custom view

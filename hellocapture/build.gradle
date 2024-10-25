@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-def sdkVersion = '1.8.21'
+def sdkVersion = '1.8.26'
 
 buildscript {
     repositories {

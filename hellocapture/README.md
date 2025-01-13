@@ -19,6 +19,10 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 1.8.36
+* Release date : Jan 2025
+* Bug fix for DeviceType.isNfcScanner() returning a wrong value
+
 ## HelloCapture 1.8.26
 * Release date : Oct 2024
 * Add sdk version when opening a client

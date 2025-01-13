@@ -1,18 +1,13 @@
 package com.example.socketmobile.android.hellocapture;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.icu.util.Calendar;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,9 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,9 +39,6 @@ import com.socketmobile.capture.types.DecodedData;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +77,7 @@ public class MainActivity extends AppCompatActivity{
     private int mDataCount = 0;
 
     private TextView mScanDataView;
+    private Button mClearDataButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +123,14 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setAdapter(deviceListAdapter);
 
         mScanDataView = findViewById(R.id.hello_scan);
+
+        mClearDataButton = findViewById(R.id.btn_clear_data);
+        mClearDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearScanData(v);
+            }
+        });
     }
     @Override
     protected void onDestroy() {

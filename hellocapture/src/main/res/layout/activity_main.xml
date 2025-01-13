@@ -131,7 +131,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_socketcam_status_disable"
             app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_disable"
-            android:onClick="updateSocketCamStatus"
             android:visibility="gone"/>
 
         <Button
@@ -143,8 +142,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_disable"
             app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_supported"
             app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_enable"
-
-            android:onClick="updateSocketCamStatus"
             android:visibility="gone"/>
 
         <Button
@@ -156,8 +153,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/btn_socketcam_status_disable"
             app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_not_supported"
             app:layout_constraintEnd_toStartOf="@+id/btn_socketcam_status_disable"
-
-            android:onClick="updateSocketCamStatus"
             android:visibility="gone"/>
 
         <Button
@@ -170,8 +165,6 @@
             app:layout_constraintStart_toEndOf="@+id/btn_socketcam_status_enable"
 
             app:layout_constraintEnd_toEndOf="parent"
-
-            android:onClick="updateSocketCamStatus"
             android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -263,7 +256,6 @@
             android:id="@+id/btn_clear_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="clearScanData"
             android:text="Clear data"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"

@@ -19,6 +19,11 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 1.8.47
+* Release date : Feb 2025
+* Upgrade target sdk to Android 15
+* Add a 'result' field to the success response to capture any warnings about the response
+
 ## HelloCapture 1.8.36
 * Release date : Jan 2025
 * Bug fix for DeviceType.isNfcScanner() returning a wrong value

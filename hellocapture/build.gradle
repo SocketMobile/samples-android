@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-def sdkVersion = '1.8.47'
+def sdkVersion = '1.8.57'
 
 buildscript {
     repositories {
@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.0'
+        classpath 'com.android.tools.build:gradle:8.5.2'
     }
 }
 
@@ -47,10 +47,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    configurations {
-        all*.exclude group: 'com.google.guava', module: 'listenablefuture'
-    }
-
     buildFeatures {
         buildConfig = true
     }
@@ -75,8 +71,6 @@ def getVersionCode(String versionName){
         return versionCode
     }
     catch (ignored) {
-        println('----- Exception while getting version code ----' + ignored.printStackTrace())
-        //TODO : read prev values from version.properties(currently in gitignore)
         return -1;
     }
 }

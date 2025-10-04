@@ -19,6 +19,10 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 1.8.57
+* Release date : Oct 2025
+* Upgrade dependencies for 16KB page size support
+
 ## HelloCapture 1.8.47
 * Release date : Feb 2025
 * Upgrade target sdk to Android 15

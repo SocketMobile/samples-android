@@ -20,6 +20,10 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 2.0.1
+* Release date : Jan 2026
+* Updated APIs for scanning and connecting to Bluetooth LE devices.
+
 ## HelloCapture 1.9.0
 * Release date : Dec 2025
 * Add support for S721

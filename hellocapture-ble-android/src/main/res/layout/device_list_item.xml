@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    >
 
     <TextView
         android:id="@+id/device_name"
@@ -31,23 +27,47 @@
         app:constraint_referenced_ids="device_name"
         tools:layout_editor_absoluteY="52dp" />
 
-    <Button
-        android:id="@+id/btn_trigger"
-        android:layout_width="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/btn_theme"
+        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrier_name"
-        android:text="Trigger"
-        android:onClick="onTriggerButton"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrier_name">
 
-    <Button
-        android:id="@+id/btn_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onThemeButton"
-        android:text="Theme"
-        app:layout_constraintStart_toEndOf="@+id/btn_trigger"
-        app:layout_constraintTop_toBottomOf="@+id/barrier_name" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_trigger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trigger"
+                android:onClick="onTriggerButton"/>
+
+            <Button
+                android:id="@+id/btn_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onThemeButton"
+                android:text="@string/theme" />
+
+            <Button
+                android:id="@+id/btn_disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onDisconnectButton"
+                android:text="@string/disconnect" />
+
+            <Button
+                android:id="@+id/btn_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onRemoveButton"
+                android:text="@string/remove" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -115,68 +115,35 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_device_manager_status"
         android:layout_marginTop="24dp"
-        android:text="Start Manual Discovery"
+        android:text="Add Device"
         android:onClick="startManualDiscovery"
-        android:visibility="gone"/>
-
-    <TextView
-        android:id="@+id/connected_device_type_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/manual_discovery"
-        android:layout_marginTop="12dp"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:fontFamily="sans-serif"
-        android:text="Connected Device Type :" />
+        android:visibility="visible"/>
 
     <ListView
         android:id="@+id/device_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/connected_device_type_title"></ListView>
-
-    <TextView
-        android:id="@+id/current_favorite_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/device_list"
-        android:layout_marginTop="12dp"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:fontFamily="sans-serif"
-        android:text="Current Favorite :" />
-    <TextView
-        android:id="@+id/current_favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/device_list"
-        android:layout_toRightOf="@+id/current_favorite_title"
-        android:textSize="15sp"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="5dp"
-        android:text="Empty" />
+        android:layout_below="@+id/manual_discovery"
+        android:layout_marginTop="12dp"></ListView>
 
     <TextView
         android:id="@+id/toggle_favorite_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/current_favorite_title"
+        android:layout_below="@+id/device_list"
         android:layout_marginTop="12dp"
         android:textStyle="bold"
         android:textSize="15sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:fontFamily="sans-serif"
-        android:text="Set Favorite :" />
+        android:text="Select Device :" />
 
     <Spinner
         android:id="@+id/spinner_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_below="@+id/current_favorite_title"
+        android:layout_below="@+id/device_list"
         android:layout_toRightOf="@+id/toggle_favorite_text"
         android:layout_marginTop="12dp"/>
 

@@ -20,6 +20,11 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 2.0.4
+* Release date : Mar 2026
+* Added symbology selector UI for SocketCam
+* Added helpers for local decode, acknowledgment mode, data confirmation actions, and stand mode
+
 ## HelloCapture 2.0.1
 * Release date : Jan 2026
 * Updated APIs for scanning and connecting to Bluetooth LE devices.

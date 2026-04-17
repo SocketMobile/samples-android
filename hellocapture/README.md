@@ -21,6 +21,11 @@ https://docs.socketmobile.com/capture/java/en/latest/.
 
 # Changes
 
+## HelloCapture 2.0.22
+* Release date : Apr 2026 
+* Added helpers for Battery Level, Power-Off Timeout, Power State, Reset Device, and Shutdown Device. 
+* Added notification events for Battery Level and Power State.
+
 ## HelloCapture 2.0.4
 * Release date : Mar 2026
 * Added symbology selector UI for SocketCam

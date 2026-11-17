@@ -1,0 +1,32 @@
+# Gradle
+.gradle/
+build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.navigation/
+.externalNativeBuild/
+.cxx/
+
+# Local configuration (machine-specific; must not be committed)
+local.properties
+
+# Build outputs
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+output.json
+
+# Keystore files (do not commit signing keys)
+*.jks
+*.keystore
+
+# Logs
+*.log
+
+# macOS
+.DS_Store

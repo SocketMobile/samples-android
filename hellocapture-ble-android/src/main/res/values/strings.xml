@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">HelloCaptureBle</string>
+    <string name="service_not_ready">Capture service is not connected yet</string>
+    <string name="companion_bluetooth_permission">Companion does not have Bluetooth permission. Grant \"Nearby devices\" in its app settings.</string>
+    <string name="action_settings">Settings</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="remove">Remove</string>
+    <string name="theme">Theme</string>
+    <string name="trigger">Trigger</string>
+
+    <string name="label_service">Service:</string>
+    <string name="label_select_device">Select Device :</string>
+    <string name="label_scan_data">Scan Data : </string>
+    <string name="action_add_device">Add Device</string>
+    <string name="action_scanning">Scanning…</string>
+    <string name="discovery_no_devices">No devices found. Make sure your scanner is powered on and in pairing mode.</string>
+    <string name="action_clear_data">Clear Data</string>
+    <string name="action_install">Install</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="select_an_option">Select an Option…</string>
+
+    <string name="status_error">Error</string>
+    <string name="status_connecting">Connecting</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_ready">Ready</string>
+    <string name="status_disconnecting">Disconnecting</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_gone">Gone</string>
+    <string name="status_closed">Closed</string>
+    <string name="status_in_use">In Use</string>
+
+    <string name="companion_not_installed">Socket Mobile Companion must be installed to use your scanner</string>
+    <string name="companion_restart">Please restart Companion and this app</string>
+    <string name="bluetooth_off">Bluetooth is turned off. Turn it on in Settings or Quick Settings, then your scanner will connect automatically.</string>
+
+    <string name="op_failed">%1$s failed : Code : %2$d : %3$s</string>
+    <string name="op_completed">%1$s completed</string>
+</resources>

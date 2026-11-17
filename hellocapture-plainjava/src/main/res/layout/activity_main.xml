@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.example.socketmobile.android.hellocaptureplainjava.MainActivity">
+
+    <TextView
+        android:id="@+id/main_label_service_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/label_service"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:fontFamily="sans-serif" />
+
+    <TextView
+        android:id="@+id/main_service_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/main_label_service_status"
+        android:layout_alignParentEnd="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:fontFamily="sans-serif-condensed"
+        tools:text="Ready"
+        tools:textColor="#2AA324" />
+
+    <View
+        android:id="@+id/divider_service_status"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/main_label_service_status"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/device_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider_service_status"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btn_clear_data"
+        style="@style/Widget.Socket.Button.Outlined"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/device_list"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/action_clear_data" />
+
+    <TextView
+        android:id="@+id/hello_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/device_list"
+        android:layout_alignBaseline="@+id/btn_clear_data"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:fontFamily="sans-serif"
+        android:text="@string/label_scan_data" />
+
+    <ScrollView
+        android:id="@+id/data_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_clear_data"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/scan_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </ScrollView>
+
+</RelativeLayout>

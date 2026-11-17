@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:name=".HelloCaptureApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".SelectionActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".CustomViewActivity"
+            android:exported="false" >
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:taskAffinity=""
+            android:exported="false">
+        </activity>
+
+        <meta-data
+            android:name="com.socketmobile.capture.APP_KEY"
+            android:value="MC0CFBPgc4u5RXGUAddh+ZlUrriiQID0AhUAx6SisUBSdiZhyWzdVsnWm25FVTA="/>
+        <meta-data
+            android:name="com.socketmobile.capture.DEVELOPER_ID"
+            android:value="BB57D8E1-F911-47BA-B510-693BE162686A"/>
+    </application>
+
+</manifest>

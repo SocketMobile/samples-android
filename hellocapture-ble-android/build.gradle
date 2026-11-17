@@ -1,0 +1,42 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+def sdkVersion = libs.versions.captureSdk.get()
+
+android {
+    namespace "com.example.socketmobile.android.hellocaptureble"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.socketmobile.android.hellocaptureble"
+        minSdkVersion 22
+        targetSdkVersion 35
+        versionCode versionCodeFromSdkVersion(sdkVersion)
+        versionName sdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    testImplementation libs.junit
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.capture.android
+}

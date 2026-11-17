@@ -1,0 +1,48 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+def sdkVersion = libs.versions.captureSdk.get()
+
+android {
+    namespace "com.example.socketmobile.android.hellocaptureplainjava"
+    compileSdk 35
+
+    defaultConfig {
+        // Reuses hellocapture's applicationId on purpose: the Capture app key is bound
+        // to the app id it was issued for, so keeping the same id lets this sample run
+        // with hellocapture's existing key. It therefore replaces hellocapture on install.
+        applicationId "com.example.socketmobile.android.hellocapture"
+        minSdkVersion 22
+        targetSdkVersion 35
+        versionCode versionCodeFromSdkVersion(sdkVersion)
+        versionName sdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    // Provides RecyclerView (and other AndroidX UI widgets) for the connected-device list
+    implementation libs.material
+    testImplementation libs.junit
+
+    // Plain Java Capture SDK: no capture-android wrapper, no EventBus
+    implementation libs.capture
+}

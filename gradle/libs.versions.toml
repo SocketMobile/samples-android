@@ -1,0 +1,17 @@
+[versions]
+agp = "8.13.2"
+captureSdk = "2.1.2"
+appcompat = "1.7.0"
+material = "1.11.0"
+junit = "4.13.2"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+capture-android = { module = "com.socketmobile:capture-android", version.ref = "captureSdk" }
+capture-common = { module = "com.socketmobile:capture-common", version.ref = "captureSdk" }
+capture = { module = "com.socketmobile:capture", version.ref = "captureSdk" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }

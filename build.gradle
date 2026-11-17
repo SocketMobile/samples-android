@@ -1,0 +1,30 @@
+plugins {
+    alias(libs.plugins.android.application) apply false
+}
+
+// Derive an Android versionCode (MMmmPP) from a MAJOR.MINOR.PATCH Capture SDK
+// version. Shared by all sample modules so the logic lives in one place.
+subprojects {
+    ext.versionCodeFromSdkVersion = { String versionName ->
+        // Drop any "-SNAPSHOT" / pre-release suffix
+        def base = versionName.contains('-') ? versionName.substring(0, versionName.indexOf('-')) : versionName
+        def parts = base.split('\\.')
+        if (parts.length < 3) {
+            throw new GradleException(
+                "captureSdk version '${versionName}' is not MAJOR.MINOR.PATCH; cannot derive a versionCode.")
+        }
+        try {
+            return parts[0].toInteger() * 1_000_000 + parts[1].toInteger() * 10_000 + parts[2].toInteger()
+        } catch (NumberFormatException e) {
+            throw new GradleException(
+                "captureSdk version '${versionName}' has non-numeric parts; cannot derive a versionCode.", e)
+        }
+    }
+
+    // Shared app launcher icon: all three samples pull the Socket Mobile icon
+    // from the single `common-res` directory at the repo root, so the icon
+    // lives in one place instead of being duplicated per module.
+    plugins.withId('com.android.application') {
+        android.sourceSets.main.res.srcDirs += "${rootDir}/common-res"
+    }
+}

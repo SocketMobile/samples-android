@@ -1,0 +1,42 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+def sdkVersion = libs.versions.captureSdk.get()
+
+android {
+    namespace "com.example.socketmobile.android.hellocapture"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.socketmobile.android.hellocapture"
+        minSdkVersion 22
+        targetSdkVersion 35
+        versionCode versionCodeFromSdkVersion(sdkVersion)
+        versionName sdkVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+
+    implementation libs.capture.android
+    implementation libs.capture.common
+}

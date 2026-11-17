@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Socket Mobile brand background: navy field with the blue/orange base band.
+  The band is inset from the bottom edge so it survives the adaptive-icon
+  safe-zone crop (the outer ~18dp may be masked away by the launcher).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:fillColor="#213569" android:pathData="M0,0 h108 v108 h-108 z" />
+    <path android:fillColor="#0098E5" android:pathData="M0,74 h68 v34 h-68 z" />
+    <path android:fillColor="#FE9201" android:pathData="M68,74 h40 v34 h-40 z" />
+</vector>

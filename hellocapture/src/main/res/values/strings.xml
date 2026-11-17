@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">HelloCapture</string>
+    <string name="set_property_error">Set Property finished with error code %s</string>
+    <string name="set_property_complete">Set Property completed successfully</string>
+    <string name="get_property_error">Get Property finished with error code %s</string>
+    <string name="get_property_complete">Get Property completed successfully</string>
+    <string name="set_property_unable">Unable to set favorite</string>
+    <string name="trigger_socket_cam">Trigger</string>
+    <string name="trigger_continuous">Trigger Continuous</string>
+    <string name="set_overlay">Set Overlay</string>
+    <string name="start_socket_cam">Start SocketCam Extension</string>
+    <string name="stop_socket_cam">Stop SocketCam Extension</string>
+    <string name="socket_cam_status_enable">Enable</string>
+    <string name="socket_cam_status_disable">Disable</string>
+    <string name="socket_cam_status_supported">Supported</string>
+    <string name="socket_cam_status_not_supported">Not Supported</string>
+
+    <string name="socket_cam_connected_device">Connected Device:</string>
+
+    <string name="socket_cam_scan_data">Scan Data : </string>
+
+    <string name="socket_cam_device_not_found">Device not found</string>
+
+    <string name="dialog_error">Error</string>
+    <string name="dialog_error_friendly_name_empty">Input name first.</string>
+
+    <string name="socketcam_with_default_view_finder">Socketcam with default View Finder</string>
+    <string name="socketcam_with_custom_view_finder">Socketcam with Custom View Finder</string>
+    <string name="socketcam_custom_view">SocketCam Custom View</string>
+    <string name="trigger_socketcam">Trigger SocketCam</string>
+    <string name="socketcam_custom_view_device">Device : </string>
+    <string name="socketcam_custom_view_connecting">Connecting</string>
+
+    <string name="label_start_camera_scanning">Start Camera Scanning</string>
+    <string name="label_scope">Scope :</string>
+    <string name="label_status">Status : </string>
+    <string name="label_service">Service:</string>
+    <string name="action_get">Get</string>
+    <string name="action_clear_data">Clear data</string>
+    <string name="action_install">Install</string>
+    <string name="action_dismiss">Dismiss</string>
+
+    <string name="status_error">Error</string>
+    <string name="status_connecting">Connecting</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_ready">Ready</string>
+    <string name="status_disconnecting">Disconnecting</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_gone">Gone</string>
+    <string name="status_closed">Closed</string>
+    <string name="status_in_use">In Use</string>
+    <string name="status_unknown">Unknown*</string>
+    <string name="status_none">None</string>
+
+    <string name="companion_not_installed">Socket Mobile Companion must be installed to use your scanner</string>
+    <string name="companion_not_upgraded">Socket Mobile Companion must be upgraded to use your scanner</string>
+    <string name="companion_restart">Please restart Companion and this app</string>
+    <string name="companion_bluetooth_off">Please ensure Companion has Bluetooth permission and Bluetooth Radio is on.</string>
+    <string name="companion_bluetooth_permission">Companion does not have Bluetooth permission. Grant \"Nearby devices\" in its app settings.</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="socketcam_not_initialized">SocketCam client is not initialized</string>
+    <string name="socketcam_device_not_found">SocketCam device not found</string>
+    <string name="error_client_closed">Error: Client is closed</string>
+    <string name="error_starting_camera">Error starting camera scanning : %1$s</string>
+    <string name="error_starting_extension">Error starting extension : %1$s</string>
+    <string name="camera_permission_needed">Please allow camera permission to scan</string>
+    <string name="trigger_failed">Trigger failed with error : %1$s</string>
+    <string name="scan_counter_format" translatable="false">%1$d / %2$d</string>
+
+</resources>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">HelloCapture PlainJava</string>
+
+    <string name="label_service">Service:</string>
+    <string name="label_scan_data">Scan Data : </string>
+    <string name="action_clear_data">Clear Data</string>
+
+    <string name="status_error">Error</string>
+    <string name="status_connecting">Connecting</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_ready">Ready</string>
+    <string name="status_disconnecting">Disconnecting</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_gone">Gone</string>
+    <string name="status_closed">Closed</string>
+    <string name="status_in_use">In Use</string>
+
+    <string name="error_with_code">Error %1$d : %2$s</string>
+</resources>
